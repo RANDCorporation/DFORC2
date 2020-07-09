@@ -1,0 +1,14 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: nfs-root 
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: DISK_SIZE 
+  storageClassName: ""
+  selector:
+    matchLabels:
+      name: "nfs-pv"

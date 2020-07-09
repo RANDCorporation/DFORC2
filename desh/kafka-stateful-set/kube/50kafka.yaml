@@ -1,0 +1,43 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: kafka
+#  namespace: kafka
+spec:
+  serviceName: "broker"
+  replicas: 3 
+  template:
+    metadata:
+      labels:
+        app: kafka
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: broker
+        image: dforc2:desh_kafka_stateful_set
+        ports:
+        - containerPort: 32092
+        command:
+        - sh
+        - -c
+        - "./bin/kafka-server-start.sh config/server.properties --override port=32092 --override delete.topic.enable=true --override zookeeper.connect=zk-0.zk-headless.default.svc.cluster.local:2181 --override broker.id=$(hostname | awk -F'-' '{print $2}')"
+        volumeMounts:
+        - name: kafkadatadir
+          mountPath: /opt/kafka/data
+        env:
+            - name: KAFKA_HEAP_OPTS 
+              value: "-Xms2g -Xms3G"
+        #resources:
+        #    requests:
+        #      memory: "6500Mi"
+        #      cpu: "1500m"
+  volumeClaimTemplates:
+  - metadata:
+      name: kafkadatadir
+      annotations:
+        volume.alpha.kubernetes.io/storage-class: anything
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi

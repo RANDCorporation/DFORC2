@@ -1,0 +1,27 @@
+{
+    "kind": "Service",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "postgres-service"
+    },
+    "spec": {
+        "type": "NodePort", 
+        "selector": {
+            "name": "postgres"
+        },
+        "ports": [
+            {
+                "protocol": "TCP",
+                "name": "transport",
+                "port": 5432,
+                "nodePort": 32432
+            },
+            {
+                "name": "ssh",
+                "protocol": "TCP",
+                "port": 22,
+                "nodePort": 30022
+            }
+        ]
+    }
+}

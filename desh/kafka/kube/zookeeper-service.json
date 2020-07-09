@@ -1,0 +1,20 @@
+{
+    "kind": "Service",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "zookeeper-service"
+    },
+    "spec": {
+        "type": "NodePort", 
+        "selector": {
+            "name": "kafka"
+        },
+        "ports": [
+            {
+                "protocol": "TCP",
+                "port": 2181, 
+                "nodePort": 32181 
+            }
+        ]
+    }
+}

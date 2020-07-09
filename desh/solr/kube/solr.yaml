@@ -1,0 +1,20 @@
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: solr 
+spec:
+  replicas: 1  #only one is allowed
+  selector:
+    name: solr
+  template: 
+    metadata:
+      labels:
+        name: solr
+    spec:
+      containers:
+        - name: solr
+          image: ekohlenb/dforc2:solr
+          imagePullPolicy: IfNotPresent 
+          ports:
+            - name: solr
+              containerPort: 8983 

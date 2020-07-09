@@ -1,0 +1,53 @@
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: desh-worker-controller
+spec:
+  replicas: 10 
+  selector:
+    component: desh-worker
+  template:
+    metadata:
+      labels:
+        component: desh-worker
+    spec:
+      containers:
+        - name: desh-worker
+          image: ekohlenb/dforc2:worker
+          imagePullPolicy:  IfNotPresent 
+          volumeMounts:
+            - mountPath: /mnt
+              name: casefiles 
+          env:
+            - name: FILE_SYSTEM_PATH 
+              value: /mnt
+            - name: LD_LIBRARY_PATH 
+              value: /usr/local/lib/
+            - name: PG_SERVER 
+              value: postgres-service
+            - name: PG_PORT
+              value: "5432"
+            - name: SOLR_PORT 
+              value: "8983"
+            - name: SOLR_SERVER 
+              value: solr-service
+            - name: CASE_NAME 
+              value: cluster_test_oscar
+            - name: SLEEP_TIME 
+              value: "0"
+            - name: ACTIVEMQ_PORT
+              value: "61616"
+            - name: ACTIVEMQ_SERVER
+              value: activemq-service
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "300m"
+      volumes:
+        - name: assembly
+          persistentVolumeClaim:
+            claimName: assembly 
+        - name: casefiles
+          persistentVolumeClaim:
+            claimName: nfs-root
+

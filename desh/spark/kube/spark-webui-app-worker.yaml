@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: spark-webui-app-worker
+spec:
+  type: NodePort
+  ports:
+    - port: 4040
+      targetPort: 4040
+      nodePort: 32040
+  selector:
+    component: spark-worker

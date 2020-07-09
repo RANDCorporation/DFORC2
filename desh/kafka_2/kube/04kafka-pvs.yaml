@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kafka-pv-provisioning-4
+  labels:
+    name: kafka-pv-provisioning-4
+  annotations:
+    volume.alpha.kubernetes.io/storage-class: any
+spec:
+  accessModes: [ "ReadWriteOnce" ]
+  resources:
+    requests:
+      storage: 62Gi 

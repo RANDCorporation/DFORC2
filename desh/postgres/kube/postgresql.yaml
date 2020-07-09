@@ -1,0 +1,36 @@
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: postgres
+spec:
+  replicas: 1  #only one is allowed
+  selector:
+    name: postgres
+  template: 
+    metadata:
+      labels:
+        name: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: ekohlenb/dforc2:postgres 
+          imagePullPolicy: Always 
+          ports:
+            - name: transport
+              containerPort: 5432
+            - name: ssh 
+              containerPort: 22
+          volumeMounts:
+            - name: credentials
+              mountPath: /etc/postgres-credentials
+          env:
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          resources:
+            requests: 
+              memory: "6500Mi"
+              cpu: "1500m"
+      volumes:
+        - name: credentials
+          secret:
+            secretName: postgres-credentials

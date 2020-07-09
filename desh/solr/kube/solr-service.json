@@ -1,0 +1,20 @@
+{
+    "kind": "Service",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "solr-service"
+    },
+    "spec": {
+        "type": "NodePort", 
+        "selector": {
+            "name": "solr"
+        },
+        "ports": [
+            {
+                "protocol": "TCP",
+                "port": 8983, 
+                "nodePort": 31983 
+            }
+        ]
+    }
+}

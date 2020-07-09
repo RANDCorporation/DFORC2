@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-8
+spec:
+  ports:
+  - port: 32100
+  clusterIP: None
+  selector:
+    name: kafka-8

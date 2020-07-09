@@ -1,0 +1,20 @@
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: activemq 
+spec:
+  replicas: 1  #only one is allowed
+  selector:
+    name: activemq
+  template: 
+    metadata:
+      labels:
+        name: activemq
+    spec:
+      containers:
+        - name: activemq
+          image: ekohlenb/dforc2:activemq 
+          imagePullPolicy: IfNotPresent 
+          ports:
+            - name: activemq
+              containerPort: 61616 

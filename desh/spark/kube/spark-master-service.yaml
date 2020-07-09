@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: spark-master
+spec:
+  type: NodePort
+  ports:
+    - port: 6066
+      targetPort: 6066 
+      nodePort: 32066
+      name: "rest" 
+    - port: 7077
+      targetPort: 7077
+      nodePort: 32077
+      name: "master" 
+  selector:
+    component: spark-master

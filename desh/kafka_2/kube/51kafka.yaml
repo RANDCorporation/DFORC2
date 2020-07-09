@@ -1,0 +1,42 @@
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: kafka-1
+spec:
+  replicas: 1  #only one is allowed
+  selector:
+    name: kafka-1
+  template: 
+    metadata:
+      labels:
+        name: kafka-1
+    spec:
+      containers:
+      - name: broker
+        image: ekohlenb/dforc2:kafka
+        ports:
+        - containerPort: 32093
+        command:
+        - sh
+        - -c
+        - "/usr/bin/start-kafka.sh"
+        volumeMounts:
+        - name: kafkadatadir
+          mountPath: /opt/kafka/data
+        env:
+            - name: KAFKA_HEAP_OPTS 
+              value: "-Xms2g -Xms3G"
+            - name: ADVERTISED_HOST
+              value: kafka-1
+            - name: ADVERTISED_PORT
+              value: "32093"
+            - name: BROKER_ID
+              value: "1"
+        resources:
+            requests:
+              memory: "7100Mi"
+              cpu: "1500m"
+      volumes:
+        - name: kafkadatadir
+          persistentVolumeClaim:
+            claimName: kafka-pv-provisioning-1

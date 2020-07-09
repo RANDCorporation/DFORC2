@@ -1,0 +1,20 @@
+{
+    "kind": "Service",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "activemq-service"
+    },
+    "spec": {
+        "type": "NodePort", 
+        "selector": {
+            "name": "activemq"
+        },
+        "ports": [
+            {
+                "protocol": "TCP",
+                "port": 61616, 
+		"nodePort": 32616
+            }
+        ]
+    }
+}

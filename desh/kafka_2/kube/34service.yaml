@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodeport-4
+spec:
+  type: NodePort
+  ports:
+  - port: 32096
+    nodePort: 32096
+  selector:
+    name: kafka-4

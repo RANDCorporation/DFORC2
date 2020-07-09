@@ -1,0 +1,17 @@
+apiVersion: eksctl.io/v1.13
+kind: ClusterConfig
+
+metadata:
+  name: eli-eks
+  region: us-east-1
+
+nodeGroups:
+  - name: desh-workers
+    instanceType: m5.large
+    desiredCapacity: 15
+    maxSize: 18
+    minSize: 3
+    volumeSize: 10
+    ssh:
+      allow: true
+      publicKeyPath: ~/.ssh/eks-key.pub

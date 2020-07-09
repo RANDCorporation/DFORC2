@@ -1,0 +1,46 @@
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: kafka 
+spec:
+  replicas: 1  #only one is allowed
+  selector:
+    name: kafka
+  template: 
+    metadata:
+      labels:
+        name: kafka
+    spec:
+      containers:
+        - name: kafka
+          image: dforc2:desh_kafka 
+          imagePullPolicy: Always 
+          ports:
+            - name: zookeeper 
+              containerPort: 2181 
+            - name: kafka
+              containerPort: 9092 
+            - name: jmx 
+              containerPort: 9999
+          volumeMounts:
+            - name: kafka-data-storage
+              mountPath: /tmp/kafka-logs
+          env:
+            - name: ADVERTISED_HOST 
+              value: "kafka-service"
+            - name: ADVERTISED_PORT
+              value: "32092"
+            - name: JMX_PORT 
+              value: "9999"
+            - name: KAFKA_HEAP_OPTS 
+              value: "-Xms2g -Xms3G"
+            - name: KAFKA_JMX_OPTS 
+              value: "-Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false  -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.rmi.port=9999"
+          resources:
+            requests:
+              memory: "6500Mi"
+              cpu: "1500m"
+      volumes:
+        - name: kafka-data-storage
+          persistentVolumeClaim:
+            claimName: kafka-pv-provisioning

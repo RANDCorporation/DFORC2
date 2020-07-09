@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodeport-8
+spec:
+  type: NodePort
+  ports:
+  - port: 32100
+    nodePort: 32100
+  selector:
+    name: kafka-8

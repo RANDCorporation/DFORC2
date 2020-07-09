@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-4
+spec:
+  ports:
+  - port: 32096
+  clusterIP: None
+  selector:
+    name: kafka-4

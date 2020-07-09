@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodeport-1
+spec:
+  type: NodePort
+  ports:
+  - port: 32093
+    nodePort: 32093
+  selector:
+    name: kafka-1

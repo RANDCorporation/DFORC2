@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zk-headless-nodeport
+  labels:
+    app: zk-headless
+spec:
+  type: NodePort
+  ports:
+  - port: 2181
+    nodePort: 32181
+    name: client 
+    protocol: TCP 
+    targetPort: 2181 
+  selector:
+    app: zk
+
